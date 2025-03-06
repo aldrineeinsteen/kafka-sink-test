@@ -29,6 +29,19 @@
     "topic.time-events.codec.timestamp": "CQL_TIMESTAMP",
     "topic.time-events.codec.date": "ISO_LOCAL_DATE",
     "topic.time-events.codec.time": "ISO_LOCAL_TIME",
-    "topic.time-events.codec.unit": "MILLISECONDS"
+    "topic.time-events.codec.unit": "MILLISECONDS",
+
+    "key.converter": "io.confluent.connect.avro.AvroConverter",
+    "value.converter": "io.confluent.connect.avro.AvroConverter",
+    "key.converter.schema.registry.url": "http://schema-registry:8081",
+    "value.converter.schema.registry.url": "http://schema-registry:8081",
+
+    "key.converter.basic.auth.credentials.source": "USER_INFO",
+    "key.converter.basic.auth.user.info": "admin:admin-password",
+    "value.converter.basic.auth.credentials.source": "USER_INFO",
+    "value.converter.basic.auth.user.info": "admin:admin-password",
+
+    "key.converter.rule.service.loader.enable": "false",
+    "value.converter.rule.service.loader.enable": "false"
   }
 }

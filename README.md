@@ -7,7 +7,10 @@ docker-compose up
 
 
 curl -X DELETE http://localhost:8083/connectors/cassandra-sink
+curl -X GET http://localhost:8083/connectors/cassandra-sink/status | jq .
 curl -X POST -H "Content-Type: application/json" --data @../kafka-sink/cassandra-sink.json http://localhost:8083/connectors | jq .
+curl -X GET http://localhost:8083/connectors/cassandra-sink/status | jq .
+curl -X PUT -H "Content-Type: application/json" --data @../kafka-sink/cassandra-sink.json http://localhost:8083/connectors | jq .
 
 
 curl -X PUT http://localhost:8083/connectors/cassandra-sink/config \
@@ -60,8 +63,25 @@ curl -X POST http://localhost:8083/connectors/cassandra-sink/config \
 "topic.time-events.kafka_sink.events.deletesEnabled": "false",
 "topic.time-events.codec.locale": "en_US",
 "topic.time-events.codec.timeZone": "UTC",
-"topic.time-events.codec.timestamp": "CQL_TIMESTAMP",
+"topic.time-events.codec.timestamp": "UNIX_EPOCH",
+"topic.time-events.codec.unit": "MILLISECONDS"
 "topic.time-events.codec.date": "ISO_LOCAL_DATE",
 "topic.time-events.codec.time": "ISO_LOCAL_TIME",
-"topic.time-events.codec.unit": "MILLISECONDS"
 }'
+
+
+docker exec -it cassandra cqlsh -e "SELECT COUNT(*) FROM kafka_sink.events;"
+
+
+docker exec -it $(docker ps --filter name=cassandra --format "{{.ID}}") cqlsh
+
+
+docker exec -it infra-kafka-1 kafka-topics --bootstrap-server kafka:9092 --delete --topic time-events
+
+
+docker exec -it infra-kafka-1 kafka-consumer-groups --bootstrap-server kafka:9092 \
+--group connect-cassandra-sink \
+--reset-offsets --to-earliest \
+--execute --all-topics
+
+docker exec -it infra-kafka-1 kafka-topics --bootstrap-server kafka:9092 --list

@@ -36,6 +36,31 @@
       <version>1.7.36</version>
     </dependency>
 
+    <dependency>
+      <groupId>io.confluent</groupId>
+      <artifactId>kafka-avro-serializer</artifactId>
+      <version>7.4.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.confluent</groupId>
+      <artifactId>kafka-schema-registry-client</artifactId>
+      <version>7.4.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.avro</groupId>
+      <artifactId>avro</artifactId>
+      <version>1.11.0</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>org.apache.kafka</groupId>
+      <artifactId>kafka-clients</artifactId>
+      <version>3.7.1</version>
+    </dependency>
+
     <!-- Logback (SLF4J backend) -->
     <dependency>
       <groupId>ch.qos.logback</groupId>
@@ -111,4 +136,10 @@
       </plugins>
     </pluginManagement>
   </build>
+  <repositories>
+    <repository>
+      <id>confluent</id>
+      <url>https://packages.confluent.io/maven/</url>
+    </repository>
+  </repositories>
 </project>
