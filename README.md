@@ -17,6 +17,19 @@ Ensure you have the following installed on your system:
 2. **Start the Kafka infrastructure with Docker Compose:**
    ```sh
    docker-compose up -d
+   
+   docker exec -it $(docker ps --filter name=cassandra --format "{{.ID}}") cqlsh
+    
+   CREATE KEYSPACE kafka_sink WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1};
+
+    USE kafka_sink;
+
+    CREATE TABLE events (
+    id UUID PRIMARY KEY,
+    event_time TIMESTAMP,
+    message TEXT
+    ) WITH compaction = { 'class': 'TimeWindowCompactionStrategy', 'compaction_window_size': '1', 'compaction_window_unit': 'DAYS' };
+
    ```
 
 ## Kafka Connect Setup

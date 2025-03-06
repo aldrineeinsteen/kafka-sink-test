@@ -95,6 +95,11 @@ services:
     environment:
       SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: "kafka:9092"
       SCHEMA_REGISTRY_HOST_NAME: "schema-registry"
+#      SCHEMA_REGISTRY_RULE_EXECUTORS: "cel-executor,field-encryption-executor"
+#      SCHEMA_REGISTRY_OPTS: "-Dschema.registry.rule.executors=cel-executor,field-encryption-executor -Djava.security.auth.login.config=/etc/schema-registry/schema-registry.jaas"
+      SCHEMA_REGISTRY_OPTS: "-Djava.security.auth.login.config=/etc/schema-registry/schema-registry.jaas"
+      SCHEMA_REGISTRY_RULE_EXECUTORS: "io.confluent.kafka.schemaregistry.rules.cel.CelExecutor,io.confluent.kafka.schemaregistry.encryption.FieldEncryptionExecutor"
+
 
       # Enable TLS/SSL
       SCHEMA_REGISTRY_LISTENERS: "http://0.0.0.0:8081,https://0.0.0.0:8082"
@@ -108,7 +113,6 @@ services:
       SCHEMA_REGISTRY_AUTHENTICATION_METHOD: "BASIC"
       SCHEMA_REGISTRY_AUTHENTICATION_REALM: "SchemaRegistry"
       SCHEMA_REGISTRY_AUTHENTICATION_ROLES: "admin,user"
-      SCHEMA_REGISTRY_OPTS: "-Djava.security.auth.login.config=/etc/schema-registry/schema-registry.jaas"
 
     ports:
       - "8081:8081"
